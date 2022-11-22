@@ -10,6 +10,6 @@ class ListaEspera extends StatefulWidget {
 class _ListaEsperaState extends State<ListaEspera> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold();
   }
 }
