@@ -6,7 +6,7 @@ import 'dart:convert';
 
 Future<List<Data>> fetchData() async{
   var response = await http.get(
-    Uri.parse("http://www.slmm.com.br/CTC/getLista.php"),
+    Uri.parse("http://www.slmm.com.br/CTC/insere.php"),
     headers: {"Accept" : "application/json"});
 
   if(response.statusCode == 200) {
@@ -42,40 +42,68 @@ class _ListaEsperaState extends State<ListaEspera> {
         centerTitle: true,
         backgroundColor: Colors.purple,
       ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: FutureBuilder<List<Data>>(
-          future: futureData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Data> data = snapshot.data!;
-              return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(data[index].nome),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.favorite_sharp, color: Colors.cyan,),
-                          IconButton(
-                            onPressed: () {
-                              print(Text(data[index].data));
-                            }, 
-                            icon: Icon(Icons.favorite, color: Colors.red,)
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                });
-
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return CircularProgressIndicator();
-          },
+      body: Form(
+        child: Column(
+          children: [
+            Container(
+              width: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "nome" ,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(300, 30)
+              ),
+              onPressed: (() {
+              
+              }), 
+              child: Text("Enviar")),
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: SizedBox(
+                height: 222,
+                child: FutureBuilder<List<Data>>(
+                  future: futureData,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<Data> data = snapshot.data!;
+                      return ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return Card(
+                            child: ListTile(
+                              title: Text(data[index].nome),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.favorite_sharp, color: Colors.cyan,),
+                                  IconButton(
+                                    onPressed: () {
+                                      print(Text(data[index].data));
+                                    }, 
+                                    icon: const Icon(Icons.favorite, color: Colors.red,)
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+      
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
