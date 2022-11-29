@@ -1,4 +1,4 @@
-#Tue Nov 22 16:09:12 BRT 2022
-base.0=/Users/u21426/listaDeEspera/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Tue Nov 29 15:14:02 BRT 2022
+base.0=/Users/u21431/ds403/listaDeEspera/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
