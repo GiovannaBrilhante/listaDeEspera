@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_espera/insere.dart';
 import 'data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -6,7 +7,7 @@ import 'dart:convert';
 
 Future<List<Data>> fetchData() async{
   var response = await http.get(
-    Uri.parse("http://www.slmm.com.br/CTC/insere.php"),
+    Uri.parse("https://www.slmm.com.br/CTC/getLista.php"),
     headers: {"Accept" : "application/json"});
 
   if(response.statusCode == 200) {
@@ -42,32 +43,10 @@ class _ListaEsperaState extends State<ListaEspera> {
         centerTitle: true,
         backgroundColor: Colors.purple,
       ),
-      body: Form(
-        child: Column(
-          children: [
-            Container(
-              width: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "nome" ,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                fixedSize: Size(300, 30)
-              ),
-              onPressed: (() {
-              
-              }), 
-              child: Text("Enviar")),
-            Container(
+      body:Container(
               padding: const EdgeInsets.all(16),
               child: SizedBox(
-                height: 222,
+                height: 300,
                 child: FutureBuilder<List<Data>>(
                   future: futureData,
                   builder: (context, snapshot) {
@@ -82,12 +61,17 @@ class _ListaEsperaState extends State<ListaEspera> {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.favorite_sharp, color: Colors.cyan,),
+                                  IconButton(
+                                    onPressed: () {}, 
+                                    icon: const Icon(Icons.favorite, color: Colors.cyan,)
+                                  ),
                                   IconButton(
                                     onPressed: () {
-                                      print(Text(data[index].data));
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: ((context) => const ListaInsere()))
+                                      );
                                     }, 
-                                    icon: const Icon(Icons.favorite, color: Colors.red,)
+                                    icon: const Icon(Icons.add, color: Colors.red,)
                                   )
                                 ],
                               ),
@@ -102,10 +86,7 @@ class _ListaEsperaState extends State<ListaEspera> {
                   },
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            )
     );
   }
 }

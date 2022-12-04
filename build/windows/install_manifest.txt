@@ -1,0 +1,10 @@
+C:/listaDeEspera/build/windows/runner/Debug/data/icudtl.dat
+C:/listaDeEspera/build/windows/runner/Debug/flutter_windows.dll
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/NOTICES
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/listaDeEspera/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag
