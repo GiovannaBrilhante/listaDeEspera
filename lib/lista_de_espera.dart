@@ -12,7 +12,7 @@ Future<List<Data>> fetchData() async{
 
   if(response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Data.fromJson(data)).toList();
+    return jsonResponse.map((data) => Data.fromJson(data)).toList();
   } else {
     throw Exception('Erro inesperado...');
   }
@@ -46,7 +46,7 @@ class _ListaEsperaState extends State<ListaEspera> {
       body:Container(
               padding: const EdgeInsets.all(16),
               child: SizedBox(
-                height: 300,
+                height: 500,
                 child: FutureBuilder<List<Data>>(
                   future: futureData,
                   builder: (context, snapshot) {

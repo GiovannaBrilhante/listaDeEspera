@@ -5,17 +5,21 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
 
-Future<Data> fetchData(String nome) async{
-  var response = await http.post(
-    Uri.parse("https://www.slmm.com.br/CTC/insere.php"),
-    headers: {"Accept" : "application/json"},
-    body: {"nome": nome, "data": DateFormat("yy/mm/dd - hh/mm/ss").format(DateTime.now())});
+Future<String> inserir(String nome) async {
+  String data = DateFormat("dd/MM/yy HH:mm:ss").format(DateTime.now());
 
-  if(response.statusCode == 200) {
-    return Data.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Erro inesperado...');
+
+  var response = await http.post(
+    await Uri.parse("https://www.slmm.com.br/CTC/insere.php"),
+     headers: {"Accept" : "application/json"},
+     body: json.encode({"nome":nome, "data":data})
+  );
+  
+   print(response.body);
+  if(response.statusCode != 200) {
+    throw Exception('Erro inesperado...'); 
   }
+  return response.body;
 }
 
 class ListaInsere extends StatefulWidget {
@@ -26,8 +30,14 @@ class ListaInsere extends StatefulWidget {
 }
 
 class _ListaInsereState extends State<ListaInsere> {
-  late Future<Data>? _futureData;
+  Future<String>? _insereNome;
   final _nome = TextEditingController();
+
+  @override
+  void dispose() {
+    _nome.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +70,11 @@ class _ListaInsereState extends State<ListaInsere> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    _futureData = fetchData(_nome.text);
+                    _insereNome = inserir(_nome.text);
                   });
                   Navigator.of(context).pop();
                 }, 
-                child: Text("Enviar")
+                child: const Text("Enviar")
               )
             ],
           ),
