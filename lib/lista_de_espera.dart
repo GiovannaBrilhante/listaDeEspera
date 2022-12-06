@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_espera/insere.dart';
-import 'data.dart';
+import 'package:lista_espera/detalhe.dart';
+import 'package:lista_espera/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -55,57 +56,75 @@ class _ListaEsperaState extends State<ListaEspera> {
         ),
         body: Container(
           padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            height: 500,
-            child: FutureBuilder<List<Data>>(
-              future: futureData,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<Data> data = snapshot.data!;
-                  return ListView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(data[index].nome),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      deletarPessoaDaLista(data[index].id);
-                                      snapshot.data!.removeAt(index);
-                                      setState(() {
-                                        futureData = fetchData();
-                                      });
-                                    },
-                                    icon: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.cyan,
-                                    )),
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: ((context) =>
-                                                  const ListaInsere())));
-                                    },
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: Colors.red,
-                                    ))
-                              ],
+          child: Column(children: [
+            SizedBox(
+              height: 610,
+              child: FutureBuilder<List<Data>>(
+                future: futureData,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Data> data = snapshot.data!;
+                    return ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return Card(
+                            child: ListTile(
+                              title: Text(data[index].nome),
+                              subtitle:
+                                  Text("👥 Posição: " + (index + 1).toString()),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    Detalhes(data[index].id))));
+                                      },
+                                      icon: const Icon(
+                                        Icons.favorite,
+                                        color: Color.fromARGB(255, 134, 0, 212),
+                                      )),
+                                  IconButton(
+                                      onPressed: () {
+                                        deletarPessoaDaLista(data[index].id);
+                                        snapshot.data!.removeAt(index);
+                                        setState(() {
+                                          futureData = fetchData();
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.cyan,
+                                      )),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      });
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return const CircularProgressIndicator();
-              },
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return const CircularProgressIndicator();
+                },
+              ),
             ),
-          ),
+            const SizedBox(
+              height: 10,
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => const ListaInsere())));
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.red,
+                  size: 30,
+                ))
+          ]),
         ));
   }
 }
+
