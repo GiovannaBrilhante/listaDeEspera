@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'tela2.dart';
 import 'package:lista_espera/lista_de_espera.dart';
 
+
 class qrCode extends StatefulWidget {
   const qrCode({Key? key}) : super(key: key);
 
