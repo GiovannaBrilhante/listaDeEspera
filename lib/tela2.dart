@@ -29,37 +29,34 @@ class _tela2State extends State<tela2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Qr CODE")),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(children: [
-          ElevatedButton(
-            //Botão para voltar para a tela de geração de qrCode
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Voltar")),
-          //gera o qrCode com o endereço do servidor
-          QrImage(
-            data: link,
-            version: QrVersions.auto,
-            size: 200.0,
-            gapless: false,
-          ),
-          //Botão para ler o qrCode
-          ElevatedButton(onPressed: lerQRCode, child: Text("Ler qrCode")),
-          //Botão quando a leitura é valida, que envia para a tela inicial (todos os cadastrados na lista, a opcão de ver detalhes, excluir e inserir)
-          ElevatedButton(
-              onPressed: () {
-                if (code != 'Não validado') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ListaEspera(code)));
-                }
-              },
-              child: Text("Ir para tela de lista")),
-        ]),
+      appBar: AppBar(
+        title: Text("Qr CODE"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            ElevatedButton(
+              //Botão para voltar para a tela de geração de qrCode
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Voltar")),
+            //gera o qrCode com o endereço do servidor
+            QrImage(
+              data: link,
+              version: QrVersions.auto,
+              size: 200.0,
+              gapless: false,
+            ),
+            //Botão para ler o qrCode
+            ElevatedButton(onPressed: lerQRCode, child: Text("Ler qrCode")),
+            //Botão quando a leitura é valida, que envia para a tela inicial (todos os cadastrados na lista, a opcão de ver detalhes, excluir e inserir)
+          ]),
+        ),
       ),  
     );
   }

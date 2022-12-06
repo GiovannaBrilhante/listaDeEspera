@@ -31,8 +31,7 @@ class _ListaEsperaState extends State<ListaEspera> {
   // classe que tem a função de exbir todas as pessoas cadastradas na api na nuvem
   Future<List<Data>> fetchData() async {
     //pegando o endereço desejado da API para exbir todos os cadastros com o metodo get
-    var response = await http.get(
-        Uri.parse(widget.qrCodeServer + "getLista.php"),
+    var response = await http.get( Uri.parse("${widget.qrCodeServer}getLista.php"),
         headers: {"Accept": "application/json"});
 
     //verifica se a api está funcionando, e traz as informações, se não estiver, dá erro
@@ -48,7 +47,7 @@ class _ListaEsperaState extends State<ListaEspera> {
   Future<String> deletarPessoaDaLista(String id) async {
     //pegando o endereço desejado da API para deletar o desejado com o metodo delete
     var response = await http.delete(
-        Uri.parse(widget.qrCodeServer + "delete.php?id=" + id),
+        Uri.parse("${widget.qrCodeServer}delete.php?id=$id"),
         headers: {"Accept": "application/json"});
 
     //verifica se a api está funcionando, e traz as informações de quem está sendo deletado, se não estiver, dá erro
@@ -63,15 +62,20 @@ class _ListaEsperaState extends State<ListaEspera> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Lista de Espera"),
+          title: const Text("Lista de espera"),
           centerTitle: true,
           backgroundColor: Colors.purple,
+          actions: [IconButton(onPressed: (){
+            setState(() {
+              futureData = fetchData();
+            });
+          }, icon: Icon(Icons.refresh))],
         ),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: Column(children: [
             SizedBox(
-              height: 610,
+              height: 550,
               child: FutureBuilder<List<Data>>(
                 // passando para o atributo future a lista de dados - obtendo dados
                 future: futureData,
@@ -138,6 +142,9 @@ class _ListaEsperaState extends State<ListaEspera> {
             ),
             //Botão para inserir mais pessoas que leva para a pagina de inserir
             IconButton(
+              style: IconButton.styleFrom(
+                fixedSize: Size(212, 212)
+              ),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: ((context) =>

@@ -1,6 +1,3 @@
-oi evertonn 
-oieeeeee
-kkkkkkk
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -26,7 +23,7 @@ class _DetalhesState extends State<Detalhes> {
   //getExibeDetalhes, função que informa o endereço da api que deve buscar na lista, a pessoa determinada pelo id e pegar seus detalhes
   Future<Data> getExibeDetalhes(String id) async {
     //pegando o endereço desejado da API para detalhes
-    var response = await http.get(Uri.parse(widget.qrCodeServer + "getDetalhe.php?id=$id"),
+    var response = await http.get(Uri.parse("${widget.qrCodeServer}getDetalhe.php?id=$id"),
         headers: {"Accept": "application/json"});
 
     //verifica se a api está funcionando, e pega as informações para detalhamento, se não estiver, dá erro
@@ -42,7 +39,7 @@ class _DetalhesState extends State<Detalhes> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Detalhes"),
+          title: const Text("Detalhes"),
           centerTitle: true,
           backgroundColor: Colors.cyan,
         ),
@@ -84,7 +81,7 @@ class _DetalhesState extends State<Detalhes> {
                           children: [
                             ListTile(
                                 visualDensity:
-                                    VisualDensity(vertical: -3), // to compact
+                                    const VisualDensity(vertical: -3), // to compact
                                 tileColor: Colors.cyan,
                                 shape: RoundedRectangleBorder(
                                   //<-- SEE HERE
@@ -107,12 +104,12 @@ class _DetalhesState extends State<Detalhes> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Id: ' + data.id,
+                                      'Id: ${data.id}',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      'Tempo na lista: ' + tempoNaLista + ' ',
+                                      'Tempo na lista: $tempoNaLista ',
                                       style: const TextStyle(
                                         textBaseline: TextBaseline.alphabetic,
                                         fontStyle: FontStyle.italic,
