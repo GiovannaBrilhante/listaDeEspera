@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Lista de Espera',
       debugShowCheckedModeBanner: false,
-      home: qrCode(),
+      home: qrCode(), //inicializa nosso app com a geração do qrCode responsável pela indicação do nome do servidor e das apis existentes. 
     );
   }
 }

@@ -11,8 +11,10 @@ class qrCode extends StatefulWidget {
 }
 
 class _qrCodeState extends State<qrCode> {
+  //Variavel que guarda o texto digitado
   final controller = TextEditingController(text: "Digite aqui");
 
+  //Chamado quando o widget for removido da árvore widget permanentemente.
   @override
   void dispose() {
     controller.dispose();
@@ -26,6 +28,7 @@ class _qrCodeState extends State<qrCode> {
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(children: [
+          //Botão que leva para a tela2 (imagem do qrCode)
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -38,7 +41,6 @@ class _qrCodeState extends State<qrCode> {
             controller: controller,
             decoration: InputDecoration(
               labelText: "QrCode text",
-              // errorText: "Digite corretamente sua Anta",
               border: OutlineInputBorder(),
               suffixIcon: Icon(Icons.ballot),
             ),
@@ -46,6 +48,7 @@ class _qrCodeState extends State<qrCode> {
           SizedBox(
             height: 15,
           ),
+          //Botão que leva para a tela inicial (todos os cadastrados na lista, a opcão de ver detalhes, excluir e inserir)
           ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -53,7 +56,7 @@ class _qrCodeState extends State<qrCode> {
                     MaterialPageRoute(
                         builder: (context) => ListaEspera(controller.text)));
               },
-              child: Text("Gerar Qr Code do texto")),
+              child: Text("Metodo alternativo para acessar a api, caso não consiga ler o qrCode")),
         ]),
       ),
     );
