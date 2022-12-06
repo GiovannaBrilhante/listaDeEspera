@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_espera/qr_code.dart';
+import 'package:lista_espera/qrCode.dart';
 
 void main() {
   runApp(const MyApp());
