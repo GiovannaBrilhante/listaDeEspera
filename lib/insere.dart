@@ -4,27 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
-
-Future<String> inserir(String nome) async {
-  final response = await http.post(
-    Uri.parse('https://www.slmm.com.br/CTC/insere.php'),
-    headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    body: jsonEncode({
-      'nome': nome,
-      'data': DateFormat("dd/MM/yy HH:mm:ss").format(DateTime.now()),
-    }),
-  );
-
-  print(response.body);
-  if (response.statusCode != 200) {
-    throw Exception('Erro inesperado...');
-  }
-
-  return response.body;
-}
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ListaInsere extends StatefulWidget {
-  const ListaInsere({Key? key}) : super(key: key);
+  final String qrCodeServer;
+  const ListaInsere(this.qrCodeServer, {super.key});
 
   @override
   State<ListaInsere> createState() => _ListaInsereState();
@@ -33,6 +17,24 @@ class ListaInsere extends StatefulWidget {
 class _ListaInsereState extends State<ListaInsere> {
   Future<String>? _insereNome;
   final _nome = TextEditingController();
+
+  Future<String> inserir(String nome) async {
+    final response = await http.post(
+      Uri.parse(widget.qrCodeServer + 'insere.php'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({
+        'nome': nome,
+        'data': DateFormat("dd/MM/yy HH:mm:ss").format(DateTime.now()),
+      }),
+    );
+
+    print(response.body);
+    if (response.statusCode != 200) {
+      throw Exception('Erro inesperado...');
+    }
+
+    return response.body;
+  }
 
   @override
   void dispose() {

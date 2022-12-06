@@ -5,30 +5,31 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:lista_espera/lista_de_espera.dart';
 import 'package:lista_espera/data.dart';
-
-// pegar usuario pelo id
-Future<Data> getExibeDetalhes(String id) async {
-  var response = await http.get(
-      Uri.parse("https://www.slmm.com.br/CTC/getDetalhe.php?id=$id"),
-      headers: {"Accept": "application/json"});
-
-  if (response.statusCode == 200) {
-    final Map indiv = json.decode(response.body)[0];
-    return Data(indiv["nome"], indiv["data"], indiv["id"].toString());
-  } else {
-    throw Exception('Erro inesperado...');
-  }
-}
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Detalhes extends StatefulWidget {
+  final String qrCodeServer;
   final String id;
-  const Detalhes(this.id, {super.key});
+  const Detalhes(this.id,this.qrCodeServer, {super.key});
 
   @override
   _DetalhesState createState() => _DetalhesState();
 }
 
 class _DetalhesState extends State<Detalhes> {
+// pegar usuario pelo id
+  Future<Data> getExibeDetalhes(String id) async {
+    var response = await http.get(Uri.parse(widget.qrCodeServer + "getDetalhe.php?id=$id"),
+        headers: {"Accept": "application/json"});
+
+    if (response.statusCode == 200) {
+      final Map indiv = json.decode(response.body)[0];
+      return Data(indiv["nome"], indiv["data"], indiv["id"].toString());
+    } else {
+      throw Exception('Erro inesperado...');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +55,7 @@ class _DetalhesState extends State<Detalhes> {
                         Duration tempoFila = dataAtual.difference(dataFila);
 
                         DateTime entradaNaFila = DateTime.parse(
-                            data.data!); // data de entrada na fila
+                            data.data); // data de entrada na fila
                         DateTime agora = DateTime.now(); // data atual
                         Duration durTempoNaFila = agora.difference(
                             entradaNaFila); // diferença entre as datas

@@ -6,32 +6,9 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-Future<List<Data>> fetchData() async {
-  var response = await http.get(
-      Uri.parse("https://www.slmm.com.br/CTC/getLista.php"),
-      headers: {"Accept": "application/json"});
-
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Data.fromJson(data)).toList();
-  } else {
-    throw Exception('Erro inesperado...');
-  }
-}
-
-Future<String> deletarPessoaDaLista(String id) async {
-  var response = await http.delete(
-      Uri.parse("https://www.slmm.com.br/CTC/delete.php?id=" + id),
-      headers: {"Accept": "application/json"});
-  if (response.statusCode == 200) {
-    return response.body;
-  } else {
-    throw Exception('Erro inesperado...');
-  }
-}
-
 class ListaEspera extends StatefulWidget {
-  const ListaEspera({Key? key}) : super(key: key);
+  final String qrCodeServer;
+  const ListaEspera(this.qrCodeServer, {super.key});
 
   @override
   State<ListaEspera> createState() => _ListaEsperaState();
@@ -44,6 +21,30 @@ class _ListaEsperaState extends State<ListaEspera> {
   void initState() {
     super.initState();
     futureData = fetchData();
+  }
+
+  Future<List<Data>> fetchData() async {
+    var response = await http.get(
+        Uri.parse(widget.qrCodeServer + "getLista.php"),
+        headers: {"Accept": "application/json"});
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((data) => Data.fromJson(data)).toList();
+    } else {
+      throw Exception('Erro inesperado...');
+    }
+  }
+
+  Future<String> deletarPessoaDaLista(String id) async {
+    var response = await http.delete(
+        Uri.parse(widget.qrCodeServer + "delete.php?id=" + id),
+        headers: {"Accept": "application/json"});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Erro inesperado...');
+    }
   }
 
   @override
@@ -79,8 +80,9 @@ class _ListaEsperaState extends State<ListaEspera> {
                                       onPressed: () {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    Detalhes(data[index].id))));
+                                                builder: ((context) => Detalhes(
+                                                    data[index].id,
+                                                    widget.qrCodeServer))));
                                       },
                                       icon: const Icon(
                                         Icons.favorite,
@@ -116,7 +118,8 @@ class _ListaEsperaState extends State<ListaEspera> {
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) => const ListaInsere())));
+                      builder: ((context) =>
+                          ListaInsere(widget.qrCodeServer))));
                 },
                 icon: const Icon(
                   Icons.add,
@@ -127,4 +130,3 @@ class _ListaEsperaState extends State<ListaEspera> {
         ));
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_espera/lista_de_espera.dart';
+import 'package:lista_espera/qr_code.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Lista de Espera',
       debugShowCheckedModeBanner: false,
-      home: ListaEspera(),
+      home: qrCode(),
     );
   }
 }
