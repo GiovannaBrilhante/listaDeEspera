@@ -40,7 +40,12 @@ class _tela2State extends State<tela2> {
             gapless: false,
           ),
           ElevatedButton(
-              onPressed: lerQRCode,
+              onPressed: (lerQRCode) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ListaEspera(controller.text)));
+              },
               child: Text("Ler qrCode"))
         ]),
       ),
